@@ -15,6 +15,10 @@
 		50BE41841CE95371005FBA69 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50BE41821CE95371005FBA69 /* LaunchScreen.storyboard */; };
 		50BE418F1CE95371005FBA69 /* demoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE418E1CE95371005FBA69 /* demoTests.m */; };
 		50BE419A1CE95371005FBA69 /* demoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE41991CE95371005FBA69 /* demoUITests.m */; };
+		50BE41A91CE95859005FBA69 /* Table_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE41A81CE95859005FBA69 /* Table_ViewController.m */; };
+		50BE41AC1CE96C8D005FBA69 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE41AB1CE96C8D005FBA69 /* Person.m */; };
+		50BE41AF1CE970DC005FBA69 /* KkPersonContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE41AE1CE970DC005FBA69 /* KkPersonContact.m */; };
+		50BE41B11CE9924C005FBA69 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50BE41B01CE9924C005FBA69 /* icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,13 @@
 		50BE41951CE95371005FBA69 /* demoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = demoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50BE41991CE95371005FBA69 /* demoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = demoUITests.m; sourceTree = "<group>"; };
 		50BE419B1CE95371005FBA69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50BE41A71CE95859005FBA69 /* Table_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table_ViewController.h; sourceTree = "<group>"; };
+		50BE41A81CE95859005FBA69 /* Table_ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table_ViewController.m; sourceTree = "<group>"; };
+		50BE41AA1CE96C8D005FBA69 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		50BE41AB1CE96C8D005FBA69 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		50BE41AD1CE970DC005FBA69 /* KkPersonContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KkPersonContact.h; sourceTree = "<group>"; };
+		50BE41AE1CE970DC005FBA69 /* KkPersonContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KkPersonContact.m; sourceTree = "<group>"; };
+		50BE41B01CE9924C005FBA69 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +92,7 @@
 		50BE41681CE95371005FBA69 = {
 			isa = PBXGroup;
 			children = (
+				50BE41B01CE9924C005FBA69 /* icon.png */,
 				50BE41731CE95371005FBA69 /* demo */,
 				50BE418D1CE95371005FBA69 /* demoTests */,
 				50BE41981CE95371005FBA69 /* demoUITests */,
@@ -105,6 +117,12 @@
 				50BE41781CE95371005FBA69 /* AppDelegate.m */,
 				50BE417A1CE95371005FBA69 /* ViewController.h */,
 				50BE417B1CE95371005FBA69 /* ViewController.m */,
+				50BE41A71CE95859005FBA69 /* Table_ViewController.h */,
+				50BE41A81CE95859005FBA69 /* Table_ViewController.m */,
+				50BE41AA1CE96C8D005FBA69 /* Person.h */,
+				50BE41AB1CE96C8D005FBA69 /* Person.m */,
+				50BE41AD1CE970DC005FBA69 /* KkPersonContact.h */,
+				50BE41AE1CE970DC005FBA69 /* KkPersonContact.m */,
 				50BE417D1CE95371005FBA69 /* Main.storyboard */,
 				50BE41801CE95371005FBA69 /* Assets.xcassets */,
 				50BE41821CE95371005FBA69 /* LaunchScreen.storyboard */,
@@ -243,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50BE41B11CE9924C005FBA69 /* icon.png in Resources */,
 				50BE41841CE95371005FBA69 /* LaunchScreen.storyboard in Resources */,
 				50BE41811CE95371005FBA69 /* Assets.xcassets in Resources */,
 				50BE417F1CE95371005FBA69 /* Main.storyboard in Resources */,
@@ -272,7 +291,10 @@
 			files = (
 				50BE417C1CE95371005FBA69 /* ViewController.m in Sources */,
 				50BE41791CE95371005FBA69 /* AppDelegate.m in Sources */,
+				50BE41AC1CE96C8D005FBA69 /* Person.m in Sources */,
 				50BE41761CE95371005FBA69 /* main.m in Sources */,
+				50BE41A91CE95859005FBA69 /* Table_ViewController.m in Sources */,
+				50BE41AF1CE970DC005FBA69 /* KkPersonContact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
