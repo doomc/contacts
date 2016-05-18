@@ -13,7 +13,7 @@
 #import "KkPersonContact.h"
 #import "KCStatusTableViewCell.h"
 
-@interface Table_ViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
+@interface Table_ViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate>
 {
     UITableView * _tableView;
     NSMutableArray* _contacts;
@@ -23,6 +23,7 @@
     
     UISearchBar *_searchBar;//搜索框
     NSMutableArray * _searchContact ;//搜索模型
+    UISearchDisplayController* _searchDisplayController;
     
 
 }
@@ -56,9 +57,9 @@
     Person * p1= [[Person alloc]initWithName:@"dd" Age:@"24" Address:@"重庆市渝中区上大。。。" Sex:@"男" PhoneNumber:@"13628313117"];
     Person * p2= [[Person alloc]initWithName:@"MM" Age:@"22" Address:@"重庆市渝中区上大。。。" Sex:@"女" PhoneNumber:@"23441424212"];
     Person * p3= [[Person alloc]initWithName:@"FF" Age:@"25" Address:@"重庆市渝中区上大。。。" Sex:@"女" PhoneNumber:@"023-68281923"];
-    Person * p4= [[Person alloc]initWithName:@"NN" Age:@"21" Address:@"重庆市渝中区上大。。。" Sex:@"男" PhoneNumber:@"68281923"];
+    Person * p4= [[Person alloc]initWithName:@"doom" Age:@"21" Address:@"重庆市渝中区上大。。。" Sex:@"男" PhoneNumber:@"68281923"];
     Person * p5= [[Person alloc]initWithName:@"YY" Age:@"16" Address:@"重庆市渝中区上大。。。" Sex:@"女" PhoneNumber:@"68281924"];
-    Person * p6= [[Person alloc]initWithName:@"xx" Age:@"18" Address:@"重庆市渝中区上大。。。" Sex:@"男" PhoneNumber:@"68281925"];
+    Person * p6= [[Person alloc]initWithName:@"xxdd" Age:@"18" Address:@"重庆市渝中区上大。。。" Sex:@"男" PhoneNumber:@"68281925"];
     Person * p7= [[Person alloc]initWithName:@"sb帅" Age:@"23" Address:@"重庆市渝中区上大。。。" Sex:@"男" PhoneNumber:@"15285250022"];
   
     KkPersonContact *  perContacts1 =[[KkPersonContact alloc]initWithName:@"组1" DetailText:@"亲戚" contacts:[NSMutableArray arrayWithObjects:p1,p2,p3, nil]];
@@ -75,21 +76,30 @@
 #pragma mark - 添加搜索框
 -(void) addSearchBar
 {
-    CGRect searchBarRect=CGRectMake(0, 0, self.view.frame.size.width, 60);
+    CGRect searchBarRect=CGRectMake(0, 0, self.view.frame.size.width, 44);
     _searchBar=[[UISearchBar alloc]initWithFrame:searchBarRect];
     _searchBar.placeholder=@"Please input key word...";
     
-    //_searchBar.keyboardType=UIKeyboardTypeAlphabet;//键盘类型
-    //_searchBar.autocorrectionType=UITextAutocorrectionTypeNo;//自动纠错类型
-    //_searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;//哪一次shitf被自动按下
+    _searchBar.keyboardType=UIKeyboardTypeAlphabet;//键盘类型
+    _searchBar.autocorrectionType=UITextAutocorrectionTypeNo;//自动纠错类型
+    _searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;//哪一次shitf被自动按下
     _searchBar.showsCancelButton=YES;//显示取消按钮
     //添加搜索框到页眉位置
     _searchBar.delegate=self;
+    
     _tableView.tableHeaderView=_searchBar;
+    
+    
+    
+    _searchDisplayController=[[UISearchDisplayController alloc]initWithSearchBar:_searchBar contentsController:self];
+    _searchDisplayController.delegate=self;
+    _searchDisplayController.searchResultsDataSource=self;
+    _searchDisplayController.searchResultsDelegate=self;
+    [_searchDisplayController setActive:NO animated:YES];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_isSearching ) {
+    if (tableView == self.searchDisplayController.searchResultsTableView ) {
         return 1;
         
     }
@@ -97,28 +107,40 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_isSearching) {
-        return _searchContact.count;//模型的个数
-    }
+//    if (_isSearching) {
+//        return _searchContact.count;//模型的个数
+//    }
+   if (tableView==self.searchDisplayController.searchResultsTableView)
+   {
+       return _searchContact.count;//模型的个数
+
+   }
     KkPersonContact * group = _contacts[section];
     return group.contacts.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 50;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Person *contact=nil;
-    if (_isSearching) {
+//    if (_isSearching) {
+//        contact=_searchContact[indexPath.row];
+//    }else{
+//        KkPersonContact * group = _contacts[indexPath.section];
+//        contact = group.contacts[indexPath.row];
+//        
+//    }
+    if (tableView==self.searchDisplayController.searchResultsTableView) {
         contact=_searchContact[indexPath.row];
+        
     }else{
         KkPersonContact * group = _contacts[indexPath.section];
         contact = group.contacts[indexPath.row];
         
     }
-
     /**
      *  静态提高性能
      */
@@ -140,57 +162,68 @@
 }
 #pragma mark - 搜索框代理
 #pragma mark  取消搜索
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    _isSearching=NO;
-    _searchBar.text=@"";
-    [_tableView reloadData];
-}
-
-#pragma mark 输入搜索关键字
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    if([_searchBar.text isEqual:@""]){
-        _isSearching=NO;
-        [_tableView reloadData];
-        return;
-    }
-    [self searchDataWithKeyWord:_searchBar.text];
-}
-
-#pragma mark 点击虚拟键盘上的搜索时
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    
-    [self searchDataWithKeyWord:_searchBar.text];
-    
-    [_searchBar resignFirstResponder];//放弃第一响应者对象，关闭虚拟键盘
-}
-
+//-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+//    _isSearching=NO;
+//    _searchBar.text=@"";
+//    [_tableView reloadData];
+//}
+//
+//#pragma mark 输入搜索关键字
+//-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+//    if([_searchBar.text isEqual:@""]){
+//        _isSearching=NO;
+//        [_tableView reloadData];
+//        return;
+//    }
+//    [self searchDataWithKeyWord:_searchBar.text];
+//}
+//
+//#pragma mark 点击虚拟键盘上的搜索时
+//-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+//    
+//    [self searchDataWithKeyWord:_searchBar.text];
+//    
+//    [_searchBar resignFirstResponder];//放弃第一响应者对象，关闭虚拟键盘
+//}
+//
 #pragma mark 搜索形成新数据
 -(void)searchDataWithKeyWord:(NSString *)keyWord{
-    _isSearching=YES;
+   // _isSearching=YES;
     _searchContact=[NSMutableArray array];
     [_contacts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         KkPersonContact *group=obj;
         [group.contacts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             Person *contact=obj;
-            if ([contact.name.uppercaseString containsString:keyWord.uppercaseString]||[contact.age.uppercaseString containsString:keyWord.uppercaseString]||[contact.phoneNumber containsString:keyWord]) {
+            if ([contact.name.uppercaseString containsString:keyWord.uppercaseString]||//[contact.age.uppercaseString containsString:keyWord.uppercaseString]||
+                [contact.phoneNumber containsString:keyWord]) {
                 [_searchContact addObject:contact];
             }
         }];
     }];
     
     //刷新表格
-    [_tableView reloadData];
+   //[_tableView reloadData];
 }
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    NSLog(@"生成组（组%li）名称",section);
+
+#pragma mark - 代理方法
+#pragma mark 设置分组标题
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (tableView==self.searchDisplayController.searchResultsTableView) {
+        return @"搜索结果";
+    }
     KkPersonContact *group=_contacts[section];
     return group.name;
 }
+#pragma mark 选中之前
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [_searchBar resignFirstResponder];//退出键盘
+    return indexPath;
+}
+
 
 #pragma mark 返回每组尾部说明
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-    NSLog(@"生成尾部（组%li）详情",section);
+ //   NSLog(@"生成尾部（组%li）详情",section);
     KkPersonContact *group=_contacts[section];
     return group.detailText;
 }
@@ -203,10 +236,19 @@
 //    }
 //    return indexs;
 //}
+
+
+#pragma mark - UISearchDisplayController代理方法
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
+    [self searchDataWithKeyWord:searchString];
+    return YES;
+}
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _selectIndexPath = indexPath;
-    NSLog(@"section  = %ld ， row = %ld ",_selectIndexPath.section ,_selectIndexPath.row);
+   // NSLog(@"section  = %ld ， row = %ld ",_selectIndexPath.section ,_selectIndexPath.row);
     
     
 }
@@ -241,7 +283,6 @@
     
     [_tableView setEditing:!_tableView.isEditing animated:true];
    
-    NSLog(@"add  -- -- -- - ");
 }
 
 #pragma mark 取得当前操作状态，根据不同的状态左侧出现不同的操作按钮
