@@ -8,13 +8,17 @@
 
 #import "ViewController.h"
 #import "Table_ViewController.h"
+
+
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
    
@@ -34,12 +38,13 @@
     
     
 }
+
 -(void)didcLick
 {
     
     Table_ViewController * tabVC  =[[ Table_ViewController alloc]init];
     
-    [self.navigationController pushViewController:tabVC animated:YES];
+    [self presentViewController:tabVC animated:YES completion:nil];
     
 
 }

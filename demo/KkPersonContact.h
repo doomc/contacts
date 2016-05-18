@@ -13,7 +13,7 @@
 
 @property(nonatomic,copy)NSString *name ; //组名
 @property(nonatomic,copy)NSString * detailText ;//分组描述
-@property (nonatomic,strong)NSMutableArray *contacts;
+@property(nonatomic,strong)NSMutableArray *contacts;
 
 
 

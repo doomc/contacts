@@ -14,7 +14,7 @@
 @property(nonatomic,copy)NSString * age ;
 @property(nonatomic,copy)NSString * address ;
 @property(nonatomic,copy)NSString * sex ;
-@property(nonatomic,copy) NSString *phoneNumber;
+@property(nonatomic,copy)NSString * phoneNumber;
 
 
 -(Person*)initWithName:(NSString*)name Age:(NSString*)age Address :(NSString*)address Sex :(NSString *)sex PhoneNumber:(NSString*)phoneNumber;
